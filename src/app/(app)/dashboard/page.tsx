@@ -139,52 +139,52 @@ export default function DashboardPage() {
     );
   }, [books, searchQuery]);
 
+  const showSearchResults = searchQuery.length > 0;
+
   return (
-    <div className="space-y-12">
-        {isLoading ? (
-            <div className='space-y-12'>
-                <BookCarouselSkeleton />
-                <BookCarouselSkeleton />
-            </div>
-        ) : (
-            <>
-                <BookCarousel title="For You" books={forYouBooks} />
-                <BookCarousel title="Recently Added" books={recentlyAdded} />
-            </>
-        )}
-      
-      <section className="space-y-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div className="space-y-1">
-                <h2 className="text-2xl font-bold font-headline">Explore All Books</h2>
-                <p className="text-muted-foreground">Browse through the entire collection.</p>
-            </div>
-            <div className="flex items-center gap-2 w-full md:w-auto">
-                <div className="relative flex-grow md:flex-grow-0 md:min-w-64">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                        type="search"
-                        placeholder="Search by title or author..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10"
-                    />
-                </div>
-                <Button asChild>
-                    <Link href="/add-book">
-                        <PlusCircle className="mr-2 h-4 w-4" />
-                        Add Book
-                    </Link>
-                </Button>
-            </div>
+    <div className="space-y-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
+          <p className="text-muted-foreground">
+            {showSearchResults
+              ? `Showing results for "${searchQuery}"`
+              : "Your personal book space."}
+          </p>
         </div>
-        
-        {isLoading ? (
-            <AllBooksGridSkeleton />
-        ) : (
-            <AllBooksGrid books={filteredBooks} noBooksMessage="No books found matching your search." />
-        )}
-      </section>
+        <div className="flex items-center gap-2 w-full md:w-auto">
+          <div className="relative flex-grow md:flex-grow-0 md:min-w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search all books..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          <Button asChild>
+            <Link href="/add-book">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Add Book
+            </Link>
+          </Button>
+        </div>
+      </div>
+      
+      {isLoading ? (
+        <div className="space-y-12">
+          <BookCarouselSkeleton />
+          <BookCarouselSkeleton />
+        </div>
+      ) : showSearchResults ? (
+        <AllBooksGrid books={filteredBooks} noBooksMessage="No books found matching your search." />
+      ) : (
+        <div className="space-y-12">
+          <BookCarousel title="For You" books={forYouBooks} />
+          <BookCarousel title="Recently Added" books={recentlyAdded} />
+        </div>
+      )}
     </div>
   );
 }
