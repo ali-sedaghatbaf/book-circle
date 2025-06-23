@@ -6,6 +6,7 @@ import {
     updateReadingStatus, 
     addThread, 
     addMessage, 
+    getChapter,
     type ReadingStatus 
 } from '@/lib/data';
 
@@ -25,7 +26,10 @@ export async function createThreadAction(chapterId: string, formData: FormData) 
             title,
             createdBy: user.id,
         });
-        revalidatePath(`/books/${(await getCurrentUser()).id}`); 
+        const chapter = await getChapter(chapterId);
+        if (chapter) {
+            revalidatePath(`/books/${chapter.bookId}`);
+        }
     }
 }
 
