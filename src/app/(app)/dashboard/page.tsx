@@ -3,8 +3,10 @@
 import { getBooks, type Book } from '@/lib/data';
 import { BookCard, BookCardSkeleton } from '@/components/book-card';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { useState, useEffect, useMemo } from 'react';
-import { Search } from 'lucide-react';
+import { Search, PlusCircle } from 'lucide-react';
 
 function BooksGrid({ books }: { books: Book[] }) {
   if (books.length === 0) {
@@ -65,15 +67,23 @@ export default function DashboardPage() {
           <h1 className="text-3xl font-bold font-headline">Discover Books</h1>
           <p className="text-muted-foreground">Browse through the collection and pick a book to discuss.</p>
         </div>
-        <div className="relative w-full md:w-auto md:min-w-64">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search by title or author..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
+        <div className="flex items-center gap-2 w-full md:w-auto">
+            <div className="relative flex-grow md:flex-grow-0 md:min-w-64">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                    type="search"
+                    placeholder="Search by title or author..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10"
+                />
+            </div>
+            <Button asChild>
+                <Link href="/add-book">
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Add Book
+                </Link>
+            </Button>
         </div>
       </div>
       

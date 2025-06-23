@@ -11,7 +11,7 @@ import {
   SidebarMenuButton,
   SidebarFooter,
 } from '@/components/ui/sidebar';
-import { BookOpen, BookText, LayoutDashboard, User, MessageSquareText } from 'lucide-react';
+import { BookOpen, BookText, LayoutDashboard, User, MessageSquareText, PlusCircle } from 'lucide-react';
 
 export default function AppSidebar() {
   const pathname = usePathname();
@@ -31,6 +31,14 @@ export default function AppSidebar() {
               <Link href="/dashboard">
                 <LayoutDashboard />
                 <span>Dashboard</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+           <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/add-book'} tooltip="Add Book">
+              <Link href="/add-book">
+                <PlusCircle />
+                <span>Add Book</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

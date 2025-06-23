@@ -173,6 +173,16 @@ export const getReadingList = async (userId: string): Promise<UserBook[]> => {
 }
 
 // Functions to add data (for client-side simulation)
+export const addBook = (book: Omit<Book, 'id' | 'coverImage'>): Book => {
+    const newBook: Book = {
+        ...book,
+        id: `book-${Date.now()}`,
+        coverImage: 'https://placehold.co/300x450.png',
+    };
+    books.unshift(newBook);
+    return newBook;
+}
+
 export const addThread = (thread: Omit<Thread, 'id' | 'createdAt'>): Thread => {
     const newThread: Thread = {
         ...thread,
