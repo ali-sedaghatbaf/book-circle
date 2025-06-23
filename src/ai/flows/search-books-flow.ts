@@ -8,8 +8,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import {config} from 'dotenv';
-config();
 
 const BookSearchResultSchema = z.object({
   googleBooksId: z.string(),
