@@ -116,6 +116,24 @@ export const getThreadsForChapter = async (chapterId: string): Promise<Thread[]>
   return new Promise(resolve => setTimeout(() => resolve(threads.filter(t => t.chapterId === chapterId)), 500));
 };
 
+export const getThreadsForUser = async (userId: string): Promise<Thread[]> => {
+  return new Promise(resolve => setTimeout(() => {
+    const createdThreads = threads.filter(t => t.createdBy === userId);
+    
+    const messagedInThreadIds = messages
+        .filter(m => m.userId === userId)
+        .map(m => m.threadId);
+
+    const messagedInThreads = threads.filter(t => messagedInThreadIds.includes(t.id));
+
+    const allUserThreads = [...createdThreads, ...messagedInThreads];
+    const uniqueThreads = Array.from(new Set(allUserThreads.map(t => t.id)))
+        .map(id => allUserThreads.find(t => t.id === id)!);
+    
+    resolve(uniqueThreads);
+  }, 500));
+};
+
 export const getThread = async (id: string): Promise<Thread | undefined> => {
   return new Promise(resolve => setTimeout(() => resolve(threads.find(t => t.id === id)), 500));
 };

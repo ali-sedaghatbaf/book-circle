@@ -11,7 +11,7 @@ import {
   SidebarMenuButton,
   SidebarFooter,
 } from '@/components/ui/sidebar';
-import { BookOpen, Book, LayoutDashboard } from 'lucide-react';
+import { BookOpen, Book, LayoutDashboard, User, MessageSquareText } from 'lucide-react';
 import { getBooks } from '@/lib/data';
 import { type Book as BookType } from '@/lib/data';
 import { useState, useEffect } from 'react';
@@ -39,6 +39,22 @@ export default function AppSidebar() {
               <Link href="/dashboard">
                 <LayoutDashboard />
                 <span>Dashboard</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/my-threads'} tooltip="My Threads">
+              <Link href="/my-threads">
+                <MessageSquareText />
+                <span>My Threads</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+           <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/profile'} tooltip="Profile">
+              <Link href="/profile">
+                <User />
+                <span>Profile</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
