@@ -1,8 +1,7 @@
 
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, usePathname } from '@/navigation';
 import {
   SidebarContent,
   SidebarHeader,
@@ -12,9 +11,17 @@ import {
   SidebarFooter,
 } from '@/components/ui/sidebar';
 import { BookOpen, BookText, LayoutDashboard, User, MessageSquareText, PlusCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function AppSidebar() {
   const pathname = usePathname();
+  const t = useTranslations('AppSidebar');
+
+  const checkActive = (path: string) => {
+    // Exact match for dashboard, startsWith for others
+    if (path === '/dashboard') return pathname === path;
+    return pathname.startsWith(path);
+  }
 
   return (
     <>
@@ -27,42 +34,42 @@ export default function AppSidebar() {
       <SidebarContent>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/dashboard'} tooltip="Dashboard">
+            <SidebarMenuButton asChild isActive={checkActive('/dashboard')} tooltip={t('dashboard')}>
               <Link href="/dashboard">
                 <LayoutDashboard />
-                <span>Dashboard</span>
+                <span>{t('dashboard')}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
            <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/add-book'} tooltip="Add Book">
+            <SidebarMenuButton asChild isActive={checkActive('/add-book')} tooltip={t('addBook')}>
               <Link href="/add-book">
                 <PlusCircle />
-                <span>Add Book</span>
+                <span>{t('addBook')}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/my-threads'} tooltip="My Threads">
+            <SidebarMenuButton asChild isActive={checkActive('/my-threads')} tooltip={t('myThreads')}>
               <Link href="/my-threads">
                 <MessageSquareText />
-                <span>My Threads</span>
+                <span>{t('myThreads')}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/reading-list'} tooltip="Reading List">
+            <SidebarMenuButton asChild isActive={checkActive('/reading-list')} tooltip={t('readingList')}>
               <Link href="/reading-list">
                 <BookText />
-                <span>Reading List</span>
+                <span>{t('readingList')}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
            <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/profile'} tooltip="Profile">
+            <SidebarMenuButton asChild isActive={checkActive('/profile')} tooltip={t('profile')}>
               <Link href="/profile">
                 <User />
-                <span>Profile</span>
+                <span>{t('profile')}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

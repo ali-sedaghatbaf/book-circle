@@ -1,0 +1,54 @@
+{
+  "LocaleSwitcher": {
+    "label": "Idioma",
+    "en": "English",
+    "es": "Español"
+  },
+  "LandingPage": {
+    "title": "Bienvenido a BookCircle",
+    "description": "Una comunidad para discutir tus libros favoritos, un capítulo a la vez. Comparte tus pensamientos, descubre nuevas perspectivas y conecta con otros lectores.",
+    "getStarted": "Empezar"
+  },
+  "LoginPage": {
+    "title": "Bienvenido de nuevo",
+    "description": "Introduce tus credenciales para acceder a tu cuenta.",
+    "emailLabel": "Correo electrónico",
+    "passwordLabel": "Contraseña",
+    "loginButton": "Iniciar sesión",
+    "signupPrompt": "¿No tienes una cuenta?",
+    "signupLink": "Regístrate"
+  },
+  "SignupPage": {
+    "title": "Crear una cuenta",
+    "description": "Introduce tu información para empezar.",
+    "nameLabel": "Nombre",
+    "emailLabel": "Correo electrónico",
+    "passwordLabel": "Contraseña",
+    "signupButton": "Registrarse",
+    "loginPrompt": "¿Ya tienes una cuenta?",
+    "loginLink": "Iniciar sesión"
+  },
+  "AppSidebar": {
+    "dashboard": "Panel",
+    "addBook": "Añadir Libro",
+    "myThreads": "Mis Hilos",
+    "readingList": "Lista de Lectura",
+    "profile": "Perfil"
+  },
+  "UserMenu": {
+    "profile": "Perfil",
+    "logout": "Cerrar sesión"
+  },
+  "DashboardPage": {
+    "forYou": "Para ti",
+    "recentlyAdded": "Añadidos recientemente",
+    "exploreTitle": "Explorar todos los libros",
+    "exploreDescription": "Navega por toda la colección.",
+    "searchPlaceholder": "Buscar por título o autor...",
+    "addBookButton": "Añadir libro",
+    "noBooksFound": "No se encontraron libros que coincidan con tu búsqueda."
+  },
+  "BookCard": {
+    "authorPrefix": "de {author}"
+  }
+}
