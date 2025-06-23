@@ -1,4 +1,4 @@
-import { getThread, getMessagesForThread, getUser, getCurrentUser, addMessage, type Message } from '@/lib/data';
+import { getThread, getMessagesForThread, getUser, getCurrentUser, addMessage, type Message, getChapter, getBook } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
@@ -67,18 +67,36 @@ export default async function ThreadPage({ params }: { params: { id: string } })
   }
   
   const messages = await getMessagesForThread(params.id);
+  const chapter = await getChapter(thread.chapterId);
+  const book = chapter ? await getBook(chapter.bookId) : undefined;
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="flex items-center text-sm text-muted-foreground mb-4">
-        <Link href="/dashboard" className="hover:text-primary">Books</Link>
-        <ChevronRight className="h-4 w-4" />
-        {/* In a real app, you'd fetch book/chapter for full breadcrumbs */}
+      <div className="flex items-center text-sm text-muted-foreground mb-4 flex-wrap">
+        {book ? (
+          <Link href={`/books/${book.id}`} className="hover:text-primary">{book.title}</Link>
+        ) : (
+          <Link href="/dashboard" className="hover:text-primary">Books</Link>
+        )}
+        <ChevronRight className="h-4 w-4 mx-1" />
+        {chapter ? (
+          <span className="text-muted-foreground">{chapter.title}</span>
+        ) : (
+          <span className="text-muted-foreground">Chapter</span>
+        )}
+        <ChevronRight className="h-4 w-4 mx-1" />
         <span className="text-foreground font-medium">{thread.title}</span>
       </div>
 
       <header className="mb-6 flex justify-between items-center">
-        <h1 className="text-3xl font-bold font-headline">{thread.title}</h1>
+        <div>
+          <h1 className="text-3xl font-bold font-headline">{thread.title}</h1>
+          {chapter && book && (
+            <p className="text-muted-foreground">
+              In <span className="font-medium text-foreground/80">{chapter.title}</span> of <Link href={`/books/${book.id}`} className="text-primary hover:underline font-medium">{book.title}</Link>
+            </p>
+          )}
+        </div>
         <SummarizeThread messages={messages} />
       </header>
 

@@ -108,6 +108,10 @@ export const getChapters = async (bookId: string): Promise<Chapter[]> => {
   return new Promise(resolve => setTimeout(() => resolve(chapters.filter(c => c.bookId === bookId)), 500));
 };
 
+export const getChapter = async (id: string): Promise<Chapter | undefined> => {
+  return new Promise(resolve => setTimeout(() => resolve(chapters.find(c => c.id === id)), 500));
+};
+
 export const getThreadsForChapter = async (chapterId: string): Promise<Thread[]> => {
   return new Promise(resolve => setTimeout(() => resolve(threads.filter(t => t.chapterId === chapterId)), 500));
 };
