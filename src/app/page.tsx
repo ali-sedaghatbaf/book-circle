@@ -16,9 +16,9 @@ export default function Home() {
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8">
           A community to discuss your favorite books, one chapter at a time. Share your thoughts, discover new perspectives, and connect with fellow readers.
         </p>
-        <Link href="/dashboard" passHref>
+        <Link href="/login" passHref>
           <Button size="lg">
-            Start Exploring
+            Get Started
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </Link>
