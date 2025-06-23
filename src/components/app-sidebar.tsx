@@ -35,12 +35,12 @@ export default function AppSidebar() {
       <SidebarContent>
         <SidebarMenu>
           <SidebarMenuItem>
-            <Link href="/dashboard" asChild>
-              <SidebarMenuButton isActive={pathname === '/dashboard'} tooltip="Dashboard">
+            <SidebarMenuButton asChild isActive={pathname === '/dashboard'} tooltip="Dashboard">
+              <Link href="/dashboard">
                 <LayoutDashboard />
                 <span>Dashboard</span>
-              </SidebarMenuButton>
-            </Link>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
              <p className="px-2 py-1 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">All Books</p>
@@ -48,12 +48,12 @@ export default function AppSidebar() {
 
           {books.map((book) => (
             <SidebarMenuItem key={book.id}>
-              <Link href={`/books/${book.id}`} asChild>
-                <SidebarMenuButton size="sm" isActive={pathname === `/books/${book.id}`} tooltip={book.title}>
+              <SidebarMenuButton asChild size="sm" isActive={pathname === `/books/${book.id}`} tooltip={book.title}>
+                <Link href={`/books/${book.id}`}>
                   <Book />
                   <span>{book.title}</span>
-                </SidebarMenuButton>
-              </Link>
+                </Link>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
