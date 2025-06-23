@@ -78,6 +78,13 @@ const books: Book[] = [
     summary: 'A romantic novel of manners written by Jane Austen in 1813.',
     coverImage: 'https://placehold.co/300x450.png',
   },
+  {
+    id: 'book-5',
+    title: 'Sense and Sensibility',
+    author: 'Jane Austen',
+    summary: 'Follows the three Dashwood sisters as they must move from their childhood home of Norland Park.',
+    coverImage: 'https://placehold.co/300x450.png',
+  },
 ];
 
 const chapters: Chapter[] = [
@@ -88,6 +95,7 @@ const chapters: Chapter[] = [
   { id: 'ch-2-2', bookId: 'book-2', title: 'Chapter 2', chapterNumber: 2 },
   { id: 'ch-3-1', bookId: 'book-3', title: 'Part 1, Chapter 1', chapterNumber: 1 },
   { id: 'ch-4-1', bookId: 'book-4', title: 'Chapter 1', chapterNumber: 1 },
+  { id: 'ch-5-1', bookId: 'book-5', title: 'Chapter 1', chapterNumber: 1 },
 ];
 
 const threads: Thread[] = [
