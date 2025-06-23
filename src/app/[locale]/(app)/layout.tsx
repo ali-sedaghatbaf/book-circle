@@ -14,11 +14,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { getCurrentUser } from '@/lib/data';
 import LocaleSwitcher from '@/components/locale-switcher';
-import { useTranslations } from 'next-intl';
+import { getTranslator } from 'next-intl/server';
 
-export default async function AppLayout({ children }: { children: React.ReactNode }) {
+export default async function AppLayout({ children, params: { locale } }: { children: React.ReactNode, params: { locale: string } }) {
   const user = await getCurrentUser();
-  const t = useTranslations('UserMenu');
+  const t = await getTranslator(locale, 'UserMenu');
 
   return (
     <SidebarProvider>

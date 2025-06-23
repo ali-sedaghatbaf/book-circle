@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
-import {useMessages} from 'next-intl';
 import {NextIntlClientProvider} from 'next-intl';
+import {getMessages} from 'next-intl/server';
 import { Toaster } from "@/components/ui/toaster"
 import '../globals.css';
 
@@ -9,14 +9,14 @@ export const metadata: Metadata = {
   description: 'A community to discuss your favorite books, one chapter at a time.',
 };
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
   params: {locale}
 }: {
   children: React.ReactNode;
   params: {locale: string};
 }) {
-  const messages = useMessages();
+  const messages = await getMessages();
 
   return (
     <html lang={locale} className="h-full">
