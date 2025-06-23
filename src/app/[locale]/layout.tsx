@@ -1,8 +1,8 @@
 import type {Metadata} from 'next';
-import {NextIntlClientProvider} from 'next-intl';
-import {notFound} from 'next/navigation';
+import {NextIntlClientProvider, useMessages} from 'next-intl';
 import { Toaster } from "@/components/ui/toaster"
 import '../globals.css';
+import {getMessages} from 'next-intl/server';
 
 export const metadata: Metadata = {
   title: 'BookCircle',
@@ -16,12 +16,7 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: {locale: string};
 }) {
-  let messages;
-  try {
-    messages = (await import(`../../messages/${locale}.json`)).default;
-  } catch (error) {
-    notFound();
-  }
+  const messages = await getMessages();
 
   return (
     <html lang={locale} className="h-full">

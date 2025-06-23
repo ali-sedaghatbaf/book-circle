@@ -9,6 +9,7 @@ import {
     getChapter,
     type ReadingStatus 
 } from '@/lib/data';
+import { redirect } from '@/navigation';
 
 export async function updateReadingStatusAction(bookId: string, status: ReadingStatus) {
     const user = await getCurrentUser();
@@ -21,7 +22,7 @@ export async function createThreadAction(chapterId: string, formData: FormData) 
     const title = formData.get('title') as string;
     const user = await getCurrentUser();
     if (title) {
-        addThread({
+        const newThread = addThread({
             chapterId: chapterId,
             title,
             createdBy: user.id,
@@ -30,6 +31,8 @@ export async function createThreadAction(chapterId: string, formData: FormData) 
         if (chapter) {
             revalidatePath(`/books/${chapter.bookId}`);
         }
+        revalidatePath(`/threads/${newThread.id}`);
+        redirect(`/threads/${newThread.id}`);
     }
 }
 
