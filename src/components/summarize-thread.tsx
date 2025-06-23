@@ -8,17 +8,6 @@ import { type Message } from '@/lib/data';
 import { summarizeDiscussion } from '@/ai/flows/summarize-discussion';
 import { useToast } from '@/hooks/use-toast';
 
-async function getSummaryForText(text: string) {
-  'use server';
-  try {
-    const result = await summarizeDiscussion({ text });
-    return { summary: result.summary, error: null };
-  } catch (error) {
-    console.error(error);
-    return { summary: null, error: 'Failed to generate summary.' };
-  }
-}
-
 export default function SummarizeThread({ messages }: { messages: Message[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [summary, setSummary] = useState('');
@@ -28,21 +17,27 @@ export default function SummarizeThread({ messages }: { messages: Message[] }) {
   const handleSummarize = async () => {
     setIsLoading(true);
     setIsOpen(true);
+    setSummary(''); // Clear previous summary
     const discussionText = messages.map(m => `${m.userId}: ${m.content}`).join('\n\n');
     
-    const result = await getSummaryForText(discussionText);
-    
-    if (result.error) {
+    try {
+      const result = await summarizeDiscussion({ text: discussionText });
+      if (result.summary) {
+          setSummary(result.summary);
+      } else {
+        throw new Error("Received an empty summary from the AI.");
+      }
+    } catch (error) {
+        console.error(error);
         toast({
             title: 'Error',
-            description: result.error,
+            description: 'Failed to generate summary.',
             variant: 'destructive',
         });
         setIsOpen(false);
-    } else if (result.summary) {
-        setSummary(result.summary);
+    } finally {
+        setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (
