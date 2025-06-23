@@ -35,6 +35,14 @@ export type Message = {
   createdAt: string;
 };
 
+export type ReadingStatus = 'WANT_TO_READ' | 'CURRENTLY_READING' | 'FINISHED';
+
+export type UserBook = {
+  userId: string;
+  bookId: string;
+  status: ReadingStatus;
+};
+
 const users: User[] = [
   { id: 'user-1', name: 'Alice', avatar: 'https://placehold.co/40x40.png?text=A' },
   { id: 'user-2', name: 'Bob', avatar: 'https://placehold.co/40x40.png?text=B' },
@@ -96,6 +104,15 @@ const messages: Message[] = [
   { id: 'msg-5', threadId: 'thread-3', userId: 'user-3', content: 'Atticus Finch is such a moral compass in the story.', createdAt: '5 days ago' },
 ];
 
+const userBooks: UserBook[] = [
+  { userId: 'user-1', bookId: 'book-1', status: 'CURRENTLY_READING' },
+  { userId: 'user-1', bookId: 'book-2', status: 'WANT_TO_READ' },
+  { userId: 'user-1', bookId: 'book-4', status: 'FINISHED' },
+  { userId: 'user-2', bookId: 'book-3', status: 'CURRENTLY_READING' },
+  { userId: 'user-2', bookId: 'book-1', status: 'WANT_TO_READ' },
+  { userId: 'user-3', bookId: 'book-2', status: 'FINISHED' },
+];
+
 export const getBooks = async (): Promise<Book[]> => {
   return new Promise(resolve => setTimeout(() => resolve(books), 500));
 };
@@ -150,6 +167,10 @@ export const getCurrentUser = async (): Promise<User> => {
   // In a real app, this would get the currently authenticated user.
   return new Promise(resolve => setTimeout(() => resolve(users[0]), 100));
 };
+
+export const getReadingList = async (userId: string): Promise<UserBook[]> => {
+    return new Promise(resolve => setTimeout(() => resolve(userBooks.filter(ub => ub.userId === userId)), 500));
+}
 
 // Functions to add data (for client-side simulation)
 export const addThread = (thread: Omit<Thread, 'id' | 'createdAt'>): Thread => {

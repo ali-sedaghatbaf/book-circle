@@ -11,18 +11,10 @@ import {
   SidebarMenuButton,
   SidebarFooter,
 } from '@/components/ui/sidebar';
-import { BookOpen, Book, LayoutDashboard, User, MessageSquareText } from 'lucide-react';
-import { getBooks } from '@/lib/data';
-import { type Book as BookType } from '@/lib/data';
-import { useState, useEffect } from 'react';
+import { BookOpen, BookText, LayoutDashboard, User, MessageSquareText } from 'lucide-react';
 
 export default function AppSidebar() {
   const pathname = usePathname();
-  const [books, setBooks] = useState<BookType[]>([]);
-
-  useEffect(() => {
-    getBooks().then(setBooks);
-  }, []);
 
   return (
     <>
@@ -50,6 +42,14 @@ export default function AppSidebar() {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/reading-list'} tooltip="Reading List">
+              <Link href="/reading-list">
+                <BookText />
+                <span>Reading List</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
            <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={pathname === '/profile'} tooltip="Profile">
               <Link href="/profile">
@@ -58,20 +58,6 @@ export default function AppSidebar() {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
-          <SidebarMenuItem>
-             <p className="px-2 py-1 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">All Books</p>
-          </SidebarMenuItem>
-
-          {books.map((book) => (
-            <SidebarMenuItem key={book.id}>
-              <SidebarMenuButton asChild size="sm" isActive={pathname === `/books/${book.id}`} tooltip={book.title}>
-                <Link href={`/books/${book.id}`}>
-                  <Book />
-                  <span>{book.title}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className="group-data-[collapsible=icon]:hidden">
