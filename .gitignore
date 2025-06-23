@@ -43,3 +43,10 @@ next-env.d.ts
 # firebase
 firebase-debug.log
 firestore-debug.log
+
+# Monorepo specific
+/packages/web/node_modules
+/packages/web/.next
+/packages/web/out
+/packages/web/.DS_Store
+/packages/web/*.tsbuildinfo
