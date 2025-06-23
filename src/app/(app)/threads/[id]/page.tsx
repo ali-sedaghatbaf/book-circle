@@ -1,4 +1,4 @@
-import { getThread, getMessagesForThread, getUser, getCurrentUser, addMessage, type Message, getChapter, getBook } from '@/lib/data';
+import { getThread, getMessagesForThread, getUser, getChapter, getBook } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,7 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import Link from 'next/link';
 import { ChevronRight, Send } from 'lucide-react';
 import SummarizeThread from '@/components/summarize-thread';
-import { type User } from '@/lib/data';
+import { type Message, type User } from '@/lib/data';
+import { createMessageAction } from '@/lib/actions';
 
 async function MessageItem({ message }: { message: Message }) {
   const user = await getUser(message.userId);
@@ -28,23 +29,11 @@ async function MessageItem({ message }: { message: Message }) {
   );
 }
 
-async function NewMessageForm({ threadId }: { threadId: string }) {
-    const currentUser = await getCurrentUser();
-
-    async function createMessageAction(formData: FormData) {
-        'use server';
-        const content = formData.get('content') as string;
-        if (content) {
-            addMessage({
-                threadId,
-                userId: currentUser.id,
-                content
-            });
-        }
-    }
+function NewMessageForm({ threadId }: { threadId: string }) {
+    const createMessageActionWithId = createMessageAction.bind(null, threadId);
 
     return (
-         <form action={createMessageAction} className="relative">
+         <form action={createMessageActionWithId} className="relative">
             <Textarea
               name="content"
               placeholder="Write your message..."

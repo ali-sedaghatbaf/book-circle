@@ -172,6 +172,13 @@ export const getReadingList = async (userId: string): Promise<UserBook[]> => {
     return new Promise(resolve => setTimeout(() => resolve(userBooks.filter(ub => ub.userId === userId)), 500));
 }
 
+export const getReadingStatusForBook = async (userId: string, bookId: string): Promise<ReadingStatus | null> => {
+    return new Promise(resolve => {
+        const userBook = userBooks.find(ub => ub.userId === userId && ub.bookId === bookId);
+        resolve(userBook?.status ?? null);
+    });
+};
+
 // Functions to add data (for client-side simulation)
 export const addBook = (book: Omit<Book, 'id'>): Book => {
     const newBook: Book = {
@@ -202,3 +209,12 @@ export const addMessage = (message: Omit<Message, 'id' | 'createdAt'>): Message 
     messages.push(newMessage);
     return newMessage;
 }
+
+export const updateReadingStatus = (userId: string, bookId: string, status: ReadingStatus) => {
+    const existingEntry = userBooks.find(entry => entry.userId === userId && entry.bookId === bookId);
+    if (existingEntry) {
+        existingEntry.status = status;
+    } else {
+        userBooks.push({ userId, bookId, status });
+    }
+};

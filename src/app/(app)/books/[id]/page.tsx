@@ -1,4 +1,4 @@
-import { getBook, getChapters, getThreadsForChapter, addThread, getCurrentUser } from '@/lib/data';
+import { getBook, getChapters, getThreadsForChapter, getCurrentUser, getReadingStatusForBook } from '@/lib/data';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -16,6 +16,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { createThreadAction } from '@/lib/actions';
+import AddToReadingList from '@/components/add-to-reading-list';
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const book = await getBook(params.id);
@@ -29,22 +31,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
 async function ChapterDiscussions({ chapterId }: { chapterId: string }) {
     const threads = await getThreadsForChapter(chapterId);
-    const currentUser = await getCurrentUser();
-
-    // This is a placeholder for form handling. In a real app, this would be a server action.
-    async function createThreadAction(formData: FormData) {
-        'use server';
-        const title = formData.get('title') as string;
-        if(title) {
-            // In a real app, you'd revalidate the path.
-            // Here we just add to our mock data.
-            addThread({
-                chapterId: chapterId,
-                title,
-                createdBy: currentUser.id
-            })
-        }
-    }
+    const createThreadActionWithId = createThreadAction.bind(null, chapterId);
 
     return (
         <div className="space-y-4 pl-4 pt-2">
@@ -64,7 +51,7 @@ async function ChapterDiscussions({ chapterId }: { chapterId: string }) {
                             What's on your mind? Create a new thread to discuss a topic from this chapter.
                         </DialogDescription>
                         </DialogHeader>
-                        <form action={createThreadAction} className="space-y-4">
+                        <form action={createThreadActionWithId} className="space-y-4">
                             <div>
                                 <Label htmlFor="title" className="sr-only">Thread Title</Label>
                                 <Input id="title" name="title" placeholder="Enter thread title..." required />
@@ -100,11 +87,14 @@ async function ChapterDiscussions({ chapterId }: { chapterId: string }) {
 
 export default async function BookPage({ params }: { params: { id: string } }) {
   const book = await getBook(params.id);
-  const chapters = await getChapters(params.id);
 
   if (!book) {
     notFound();
   }
+
+  const chapters = await getChapters(params.id);
+  const currentUser = await getCurrentUser();
+  const currentStatus = await getReadingStatusForBook(currentUser.id, book.id);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -117,10 +107,13 @@ export default async function BookPage({ params }: { params: { id: string } }) {
           className="rounded-lg shadow-md object-cover flex-shrink-0"
           data-ai-hint="book cover"
         />
-        <div className="space-y-3">
+        <div className="flex-1 space-y-3">
           <h1 className="text-4xl font-bold font-headline">{book.title}</h1>
           <p className="text-xl text-muted-foreground">by {book.author}</p>
           <p className="text-base">{book.summary}</p>
+           <div className="pt-2">
+            <AddToReadingList bookId={book.id} currentStatus={currentStatus} />
+          </div>
         </div>
       </header>
 
