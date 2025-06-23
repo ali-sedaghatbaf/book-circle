@@ -173,11 +173,11 @@ export const getReadingList = async (userId: string): Promise<UserBook[]> => {
 }
 
 // Functions to add data (for client-side simulation)
-export const addBook = (book: Omit<Book, 'id' | 'coverImage'>): Book => {
+export const addBook = (book: Omit<Book, 'id'>): Book => {
     const newBook: Book = {
         ...book,
         id: `book-${Date.now()}`,
-        coverImage: 'https://placehold.co/300x450.png',
+        coverImage: book.coverImage || 'https://placehold.co/300x450.png',
     };
     books.unshift(newBook);
     return newBook;

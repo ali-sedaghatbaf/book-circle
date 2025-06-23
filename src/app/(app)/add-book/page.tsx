@@ -15,6 +15,7 @@ export default function AddBookPage() {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [summary, setSummary] = useState('');
+  const [coverImage, setCoverImage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -24,14 +25,14 @@ export default function AddBookPage() {
     if (!title || !author || !summary) {
       toast({
         title: 'Missing Fields',
-        description: 'Please fill out all fields to add a book.',
+        description: 'Please fill out all required fields to add a book.',
         variant: 'destructive',
       });
       return;
     }
     setIsSubmitting(true);
     try {
-      addBook({ title, author, summary });
+      addBook({ title, author, summary, coverImage });
       toast({
         title: 'Book Added!',
         description: `"${title}" has been added to the library.`,
@@ -91,6 +92,17 @@ export default function AddBookPage() {
                 className="min-h-[120px]"
                 disabled={isSubmitting}
                 required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="coverImage">Cover Image URL (Optional)</Label>
+              <Input
+                id="coverImage"
+                type="url"
+                value={coverImage}
+                onChange={(e) => setCoverImage(e.target.value)}
+                placeholder="https://example.com/cover.png"
+                disabled={isSubmitting}
               />
             </div>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
