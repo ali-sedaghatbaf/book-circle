@@ -7,13 +7,10 @@ import {
 } from '@/components/ui/card';
 import { type Book } from '@/lib/data';
 import Image from 'next/image';
-import { Link } from '@/navigation';
+import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useTranslations } from 'next-intl';
 
 export function BookCard({ book }: { book: Book }) {
-  const t = useTranslations('BookCard');
-
   return (
     <Link href={`/books/${book.id}`} className="group block">
       <Card className="h-full overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
@@ -28,7 +25,7 @@ export function BookCard({ book }: { book: Book }) {
         </div>
         <CardHeader>
           <CardTitle className="font-headline group-hover:text-primary">{book.title}</CardTitle>
-          <CardDescription>{t('authorPrefix', {author: book.author})}</CardDescription>
+          <CardDescription>by {book.author}</CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground line-clamp-3">{book.summary}</p>

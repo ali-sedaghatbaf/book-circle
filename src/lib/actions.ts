@@ -9,7 +9,7 @@ import {
     getChapter,
     type ReadingStatus 
 } from '@/lib/data';
-import { redirect } from '@/navigation';
+import { redirect } from 'next/navigation';
 
 export async function updateReadingStatusAction(bookId: string, status: ReadingStatus) {
     const user = await getCurrentUser();
